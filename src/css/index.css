@@ -1,0 +1,30 @@
+.content{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.input{
+    margin: 3px;
+    width: 100%;
+}
+
+.btn{
+    width: 100%;
+}
+
+.btn:hover{
+    box-shadow: 0 0px 5px #50a0ef,
+    0 0px 15px #50a0ef,
+    0 0px 25px #50a0ef,
+    0 0px 35px #50a0ef;
+}
