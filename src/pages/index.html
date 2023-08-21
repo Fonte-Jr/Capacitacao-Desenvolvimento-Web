@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./../css/index.css">
+    <script src="./../scripts/script.js"></script>
     <title>Login</title>
 </head>
 <body class="content">
@@ -12,9 +13,9 @@
         <h1>Login</h1>
     </header>
     <form class="form">
-        <div class="input"> <input type="email" placeholder = "email@exemplo.com"></div>
-        <div class="input"> <input type="password" placeholder = "senha"> </div>
-        <div class="input"> <input class="btn" type="submit" value="ok"> </div>
+        <div class="input"> <input type="email" name="email" placeholder = "email@exemplo.com"></div>
+        <div class="input"> <input type="password" name="password" placeholder = "senha"> </div>
+        <div class="input"> <input class="btn" onclick="Login()" type="submit" value="ok"> </div>
     </form>
 </body>
 </html>
