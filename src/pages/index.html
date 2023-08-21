@@ -5,18 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./../css/index.css">
+    <script src="./../js/JavaScript.js"> </script>
     <title>Login</title>
-    <script src="./JavaScript.js"></script>
 </head>
 <body class="content">
     <header>
         <h1>Login</h1>
     </header>
-    <form class="form" onsubmit=verificando()>
-        <div class="input"> <input type="email" id=email placeholder = "email@exemplo.com"></div>
-        <div class="input"> <input type="password" id=senha placeholder = "senha"> </div>
-        <div class="input"> <input class="btn" type="submit" value="ok"> </div>
+    <form class="form">
+        <input type="text" placeholder="email@exemplo.com" id="login">
+        <input type="password" placeholder="Senha" id="senha">
+        <input type="submit" onclick="verificando(); return false">
+
     </form>
 </body>
-<label for="" id='permissao'></label>
 </html>

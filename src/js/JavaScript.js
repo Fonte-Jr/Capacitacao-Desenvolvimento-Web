@@ -1,10 +1,12 @@
-    function verificando(){
-        var login = document.getElementById('email').value;
-        var senha = document.getElementById('input').value;
-        document.getElementsByTagName('submit')
-        if (login == '123@gmail.com' && senha == '1') {
-            document.getElementById('permissao').innerText= 'está correto!'
-        }
-        return false
-        
+
+function verificando() {
+    var login = document.getElementById('login').value;
+    var senha = document.getElementById('senha').value;
+
+    if (login === "123@gmail.com" && senha === "123pedro") {
+        window.location.href = "dashboard.html";
+    } else {
+        alert('Login ou senha estão incorretos!');
+    }
 }
+
