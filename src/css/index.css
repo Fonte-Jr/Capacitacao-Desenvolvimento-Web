@@ -4,13 +4,19 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    
 }
 
+.tela{
+    font-family:monospace;
+}
 .form{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    
+    
 }
 
 .input{
