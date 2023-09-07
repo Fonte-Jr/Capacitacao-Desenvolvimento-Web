@@ -6,6 +6,10 @@
     align-items: center;
 }
 
+.screen-height{
+    height: 100vh;
+}
+
 .form{
     display: flex;
     flex-direction: column;
