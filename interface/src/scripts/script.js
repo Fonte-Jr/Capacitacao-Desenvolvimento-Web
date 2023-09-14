@@ -1,43 +1,64 @@
-const users = [
-    {
-        "email": "email@email.com",
-        "password": "1234"
-    },
-    {
-        "email": "email0@email.com",
-        "password": "1234"
-    },
-    {
-        "email": "email1@email.com",
-        "password": "1234"
-    }
-];
-
-function db(){
-    return users;
-}
-
-function isUser(email, password){
-    let users = db();
-    let user = users.find( user =>  user.email === email && user.password === password);
-    if(user !== undefined) {
-        return true;
-    }
-    else{
-        return false;
-    }
-}
-
-function Login(){
+function post(){
     var email = document.getElementById('email').value;
     var password = document.getElementById('password').value;
 
-    if(isUser(email, password)) {
-        window.location.href = "dashboard.html"
+    let payload = {
+        "username" : email,
+        "password" : password
+    };
+
+    fetch("http://localhost:3000/User/Create", {
+        method : "POST",
+        body : JSON.stringify(payload),
+        headers: {"Content-type": "application/json; charset=UTF-8"}
+    }).then( res => {
+        if(res.status === 200){
+            alert("Usuário Criado!!");
+            window.location.href = "index.html"
+        }
+        else{
+            alert(res.statusText);
+        }
+    });
+}
+
+async function Login(){
+    var email = document.getElementById('email').value;
+    var password = document.getElementById('password').value;
+    
+    let payload = {
+        "username" : email,
+        "password" : password
+    };
+
+    let res = await fetch("http://localhost:3000/Login", {
+        method : "POST",
+        body : JSON.stringify(payload),
+        headers: {"Content-type": "application/json; charset=UTF-8"}
+    });
+
+    if(res.status === 200){
+        let resBody = JSON.parse(await res.text());
+        window.sessionStorage.setItem("token", resBody.token);
+        window.location.href = "dashboard.html";
     }
     else{
-        alert("Login ou Senha Incorretos !!");
+        alert(res.statusText);
     }
+}
+
+function Verify(){
+    let token = window.sessionStorage.getItem("token");
+
+    if(!token){
+        alert("Acesso negado!!!");
+        window.location.href = "index.html";
+    }
+}
+
+function Logout(){
+    window.sessionStorage.removeItem("token");
+    window.location.href = "index.html";
 }
 
 
