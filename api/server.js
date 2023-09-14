@@ -1,10 +1,13 @@
 const express = require('express');
 const app = express();
+var cors = require('cors')
 const port = 3000;
 
 const db = require('./db.json');
 
+app.use(cors())
 app.use(express.json());
+
 
 app.post('/Login', (req, res) => {
 
@@ -13,7 +16,9 @@ app.post('/Login', (req, res) => {
         let password = req.body.password;
         let user = db.Users.find( user => user.username === username && user.password === password);
         if(user){
-            res.send("TokenDeAutenticacaoJwt");
+            res.send({
+                token: "TokenDeAutenticacaoJwt"
+            });
         }
         else{
             res.sendStatus(401);
@@ -36,6 +41,8 @@ app.post('/User/Create', (req, res) => {
             "username" : username,
             "password" : password
         }
+
+        console.log(payload);
 
         db.Users.push(payload);
 
