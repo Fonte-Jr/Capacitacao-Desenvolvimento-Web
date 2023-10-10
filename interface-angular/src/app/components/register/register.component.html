@@ -1,0 +1,16 @@
+<div class="content d-flex flex-column justify-content-center align-items-center w-100">
+    <div class="d-flex flex-column align-items-center w-50">
+        <header >
+            <h1 class="fw-bolder">Register</h1>
+        </header>
+        <form class="border border-1 rounded-2 border-secondary p-4 m-2" id="create-form" [formGroup]="registerForm" (ngSubmit)="Register()">
+            <div class="m-2">
+                <input class="form-control" type="email" formControlName="username" placeholder = "email@exemplo.com">
+            </div>
+            <div class="m-2"> 
+                <input class="form-control" type="password" formControlName="password" placeholder = "senha"> 
+            </div>
+            <div class="mt-4"><input class="btn btn-outline-dark" type="submit" value="Register"></div>
+        </form>
+    </div>
+</div>
