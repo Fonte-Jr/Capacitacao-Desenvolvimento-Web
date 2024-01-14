@@ -2,6 +2,9 @@ import express from 'express';
 import { Role } from './models/Role';
 import { User } from './models/User';
 import { Encrypt } from './utils/Encrypt';
+import { JwtHelper } from "./utils/JwtHelper";
+import { Authorize } from "./middlewares/Authorize";
+import cors from 'cors';
 
 
 const app = express();
@@ -10,6 +13,8 @@ const USERS : Array<User> = [];
 const ROLES : Array<Role> = [];
 
 app.use(express.json());
+
+app.use(cors())
 
 app.post('/User', async (req, res) => {
     let { username, password, roleId } = req.body;
@@ -31,7 +36,7 @@ app.post('/User', async (req, res) => {
     return res.status(201).send(user);
 });
 
-app.put('/User', (req, res) => {
+app.put('/User', Authorize.authorize, (req, res) => {
     let { username, password, roleId } = req.body;
 
     let user: User | undefined = USERS.find( item => item.username === username);
@@ -52,7 +57,7 @@ app.put('/User', (req, res) => {
     return res.sendStatus(400);
 });
 
-app.delete('/User', (req, res) => {
+app.delete('/User', Authorize.authorize, (req, res) => {
     let { username } = req.body;
 
     let user: User | undefined = USERS.find( item => item.username === username);
@@ -66,7 +71,7 @@ app.delete('/User', (req, res) => {
     return res.status(400).send('User does not exist!');
 });
 
-app.get('/User', (req, res) => {
+app.get('/User', Authorize.authorizeAdmin, (req, res) => {
     return res.status(200).send(USERS);
 });
 
@@ -84,7 +89,7 @@ app.post('/Role', (req, res) => {
     return res.status(201).send(newRole);
 });
 
-app.put('/Role', (req, res) => {
+app.put('/Role', Authorize.authorize, (req, res) => {
     let { role } = req.body;
 
     let roleDb: Role | undefined = ROLES.find( item => item.role === role);
@@ -103,7 +108,7 @@ app.put('/Role', (req, res) => {
     return res.sendStatus(400);
 });
 
-app.delete('/Role', (req, res) => {
+app.delete('/Role', Authorize.authorize, (req, res) => {
     let { role } = req.body;
 
     let roleDb: Role | undefined = ROLES.find( item => item.role === role);
@@ -117,8 +122,25 @@ app.delete('/Role', (req, res) => {
     return res.status(400).send('User does not exist!');
 });
 
-app.get('/Role', (req, res) => {
+app.get('/Role', Authorize.authorizeAdmin ,(req, res) => {
     return res.status(200).send(ROLES);
+});
+
+app.post('/Login', async (req,res) => {
+    let { username, password } = req.body;
+
+    if(!username || !password ) return res.status(400).send({ error: 'Fields needed!'});
+
+    let user: User | undefined = USERS.find( item => item.username === username);
+
+    if(user){
+        const verify = await new Encrypt().verifyHash(password, user.password);
+        if(verify){
+            return res.status(200).json({ token: JwtHelper.sing({ uid: user.id, role: user.roleId}) });
+        }
+    }
+    return res.status(400).json({ message: "Login or Password invalid!" });
+
 });
 
 app.listen(PORT, () => console.log(`Server running on PORT ${PORT}`));
